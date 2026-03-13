@@ -66,4 +66,4 @@ class VectorStore:
 
     @property
     def count(self) -> int:
-        return self._collection.count()
+        return int(self._collection.count())

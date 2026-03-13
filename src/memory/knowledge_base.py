@@ -60,7 +60,8 @@ class KnowledgeBase:
         path = self._base / REPORTS_DIR / f"{report_id}.json"
         if not path.exists():
             return None
-        return json.loads(path.read_text())
+        from typing import cast
+        return cast("dict[str, Any]", json.loads(path.read_text()))
 
     # ---- Internal helpers ----
 

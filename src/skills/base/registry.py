@@ -32,10 +32,10 @@ class SkillRegistry:
 
     def list_skills(self, domain: str | None = None) -> list[dict[str, str]]:
         """List all skills, optionally filtered by domain."""
-        skills = self._skills.values()
+        skill_list = list(self._skills.values())
         if domain:
-            skills = [s for s in skills if s.domain == domain]
-        return [s.to_dict() for s in skills]
+            skill_list = [s for s in skill_list if s.domain == domain]
+        return [s.to_dict() for s in skill_list]
 
     def list_domains(self) -> list[str]:
         """Return unique domains of registered skills."""
