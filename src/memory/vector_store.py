@@ -50,12 +50,14 @@ class VectorStore:
         results = self._collection.query(query_texts=[text], n_results=n_results)
         docs: list[dict[str, Any]] = []
         for i, doc_id in enumerate(results["ids"][0]):
-            docs.append({
-                "id": doc_id,
-                "document": results["documents"][0][i] if results["documents"] else "",
-                "metadata": results["metadatas"][0][i] if results["metadatas"] else {},
-                "distance": results["distances"][0][i] if results["distances"] else 0.0,
-            })
+            docs.append(
+                {
+                    "id": doc_id,
+                    "document": results["documents"][0][i] if results["documents"] else "",
+                    "metadata": results["metadatas"][0][i] if results["metadatas"] else {},
+                    "distance": results["distances"][0][i] if results["distances"] else 0.0,
+                }
+            )
         return docs
 
     def delete(self, doc_id: str) -> None:

@@ -68,5 +68,7 @@ class KnowledgeManagerAgent(BaseAgent):
             return 0.0
         return 1.0 if result.output.get("stored_items", 0) > 0 else 0.3
 
-    async def improve(self, context: AgentContext, plan: dict[str, Any], result: TaskResult, score: float) -> dict[str, Any]:
+    async def improve(
+        self, context: AgentContext, plan: dict[str, Any], result: TaskResult, score: float
+    ) -> dict[str, Any]:
         return plan  # knowledge storage is best-effort

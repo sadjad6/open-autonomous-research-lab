@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import asyncio
 from typing import Any
 
 from fastapi import APIRouter
@@ -10,16 +9,16 @@ from pydantic import BaseModel, Field
 
 from src.agents.base.agent import AgentContext
 from src.agents.base.registry import AgentRegistry
-from src.agents.base.types import AgentRole, _new_id
-from src.agents.orchestrator import OrchestratorAgent
-from src.agents.planner import PlannerAgent
+from src.agents.base.types import _new_id
 from src.agents.data_engineer import DataEngineerAgent
 from src.agents.data_scientist import DataScientistAgent
-from src.agents.ml_engineer import MLEngineerAgent
-from src.agents.research_analyst import ResearchAnalystAgent
 from src.agents.evaluation_agent import EvaluationAgent
-from src.agents.knowledge_manager import KnowledgeManagerAgent
 from src.agents.infrastructure_agent import InfrastructureAgent
+from src.agents.knowledge_manager import KnowledgeManagerAgent
+from src.agents.ml_engineer import MLEngineerAgent
+from src.agents.orchestrator import OrchestratorAgent
+from src.agents.planner import PlannerAgent
+from src.agents.research_analyst import ResearchAnalystAgent
 
 router = APIRouter()
 

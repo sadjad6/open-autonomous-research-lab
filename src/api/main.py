@@ -2,10 +2,10 @@
 
 from __future__ import annotations
 
-from fastapi import FastAPI, UploadFile, File
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from src.api.routes import health, workflows, datasets
+from src.api.routes import datasets, health, workflows
 
 app = FastAPI(
     title="OARL — Open Autonomous Research Lab",

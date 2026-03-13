@@ -35,4 +35,8 @@ class Skill(BaseSkill):
     @staticmethod
     def _execute(data: dict[str, Any], params: dict[str, Any]) -> dict[str, Any]:
         """Core logic for knowledge_synthesizer."""
-        return {"skill": "knowledge_synthesizer", "status": "executed", "input_keys": list(data.keys())}
+        return {
+            "skill": "knowledge_synthesizer",
+            "status": "executed",
+            "input_keys": list(data.keys()),
+        }

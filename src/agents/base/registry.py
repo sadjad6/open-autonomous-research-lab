@@ -5,10 +5,9 @@ from __future__ import annotations
 import logging
 from typing import TYPE_CHECKING
 
-from src.agents.base.types import AgentRole
-
 if TYPE_CHECKING:
     from src.agents.base.agent import BaseAgent
+    from src.agents.base.types import AgentRole
 
 logger = logging.getLogger(__name__)
 

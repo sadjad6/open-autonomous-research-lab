@@ -2,10 +2,6 @@
 
 from __future__ import annotations
 
-import asyncio
-import json
-from pathlib import Path
-
 import streamlit as st
 
 st.set_page_config(
@@ -16,7 +12,8 @@ st.set_page_config(
 )
 
 # ── Custom CSS ───────────────────────────────────────────────
-st.markdown("""
+st.markdown(
+    """
 <style>
     .main-header {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -42,27 +39,40 @@ st.markdown("""
     }
     .stApp { background-color: #0e1117; }
 </style>
-""", unsafe_allow_html=True)
+""",
+    unsafe_allow_html=True,
+)
 
 # ── Header ───────────────────────────────────────────────────
-st.markdown("""
+st.markdown(
+    """
 <div class="main-header">
     <h1>🔬 Open Autonomous Research Lab</h1>
-    <p>Multi-agent AI platform for autonomous data analysis, ML experimentation, and research discovery.</p>
+    <p>Multi-agent AI platform for autonomous data analysis, ML experimentation,
+    and research discovery.</p>
 </div>
-""", unsafe_allow_html=True)
+""",
+    unsafe_allow_html=True,
+)
 
 # ── Sidebar ──────────────────────────────────────────────────
 with st.sidebar:
     st.header("⚙️ Configuration")
-    analysis_mode = st.selectbox("Analysis Mode", ["Full Pipeline", "EDA Only", "ML Only", "Report Only"])
+    analysis_mode = st.selectbox(
+        "Analysis Mode", ["Full Pipeline", "EDA Only", "ML Only", "Report Only"]
+    )
     target_col = st.text_input("Target Column", placeholder="e.g., target, label, price")
     st.divider()
     st.header("🤖 Agent Pipeline")
     agents = [
-        "Orchestrator", "Planner", "Data Engineer",
-        "Data Scientist", "ML Engineer", "Evaluation",
-        "Research Analyst", "Knowledge Manager",
+        "Orchestrator",
+        "Planner",
+        "Data Engineer",
+        "Data Scientist",
+        "ML Engineer",
+        "Evaluation",
+        "Research Analyst",
+        "Knowledge Manager",
     ]
     for agent in agents:
         st.markdown(f'<span class="agent-badge">✅ {agent}</span>', unsafe_allow_html=True)
@@ -84,7 +94,9 @@ with tab1:
         else:
             df = pd.read_csv(uploaded_file)
 
-        st.success(f"✅ Loaded **{uploaded_file.name}** — {df.shape[0]:,} rows × {df.shape[1]} columns")
+        st.success(
+            f"✅ Loaded **{uploaded_file.name}** — {df.shape[0]:,} rows × {df.shape[1]} columns"
+        )
 
         col1, col2, col3 = st.columns(3)
         with col1:
@@ -98,7 +110,10 @@ with tab1:
 
     user_request = st.text_area(
         "Analysis Request",
-        placeholder="e.g., Analyze this dataset, discover insights, train predictive models, and generate a research report.",
+        placeholder=(
+            "e.g., Analyze this dataset, discover insights, train predictive models, "
+            "and generate a research report."
+        ),
         height=100,
     )
 
@@ -109,14 +124,19 @@ with tab1:
             st.error("Please describe your analysis request.")
         else:
             with st.spinner("🤖 Agents are working..."):
-                st.info("Analysis pipeline started. In production, this triggers the full agent orchestration.")
-                st.json({
-                    "status": "pipeline_started",
-                    "request": user_request,
-                    "dataset": uploaded_file.name,
-                    "mode": analysis_mode,
-                    "target_column": target_col,
-                })
+                st.info(
+                    "Analysis pipeline started. In production, this triggers "
+                    "the full agent orchestration."
+                )
+                st.json(
+                    {
+                        "status": "pipeline_started",
+                        "request": user_request,
+                        "dataset": uploaded_file.name,
+                        "mode": analysis_mode,
+                        "target_column": target_col,
+                    }
+                )
 
 with tab2:
     st.subheader("📊 Analysis Results")
@@ -137,12 +157,18 @@ with tab3:
     with col2:
         st.markdown("### Performance Over Time")
         import numpy as np
-        chart_data = {"iteration": range(1, 11), "score": np.random.uniform(0.75, 0.95, 10).cumsum() / np.arange(1, 11)}
+
+        chart_data = {
+            "iteration": range(1, 11),
+            "score": np.random.uniform(0.75, 0.95, 10).cumsum() / np.arange(1, 11),
+        }
         st.line_chart(chart_data, x="iteration", y="score")
 
 with tab4:
     st.subheader("📄 Research Report")
     st.info("Generated reports will appear here. You can download them as Markdown or PDF.")
     if st.button("📥 Download Sample Report"):
-        sample_report = "# Sample Research Report\\n\\n## Executive Summary\\nThis is a sample report."
+        sample_report = (
+            "# Sample Research Report\\n\\n## Executive Summary\\nThis is a sample report."
+        )
         st.download_button("Download Markdown", sample_report, "report.md", "text/markdown")

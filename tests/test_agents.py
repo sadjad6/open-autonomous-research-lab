@@ -2,9 +2,11 @@
 
 from __future__ import annotations
 
-import asyncio
 import pytest
 
+from src.agents.base.agent import AgentContext, BaseAgent
+from src.agents.base.communication import MessageBus
+from src.agents.base.registry import AgentRegistry
 from src.agents.base.types import (
     AgentMessage,
     AgentRole,
@@ -14,12 +16,9 @@ from src.agents.base.types import (
     TaskResult,
     TaskStatus,
 )
-from src.agents.base.agent import AgentContext, BaseAgent
-from src.agents.base.registry import AgentRegistry
-from src.agents.base.communication import MessageBus
-
 
 # ── Concrete test agent ──────────────────────────────────────
+
 
 class MockAgent(BaseAgent):
     """Simple agent for testing the base framework."""
@@ -36,11 +35,14 @@ class MockAgent(BaseAgent):
     async def evaluate(self, result: TaskResult) -> float:
         return 0.9
 
-    async def improve(self, context: AgentContext, plan: dict, result: TaskResult, score: float) -> dict:
+    async def improve(
+        self, context: AgentContext, plan: dict, result: TaskResult, score: float
+    ) -> dict:
         return plan
 
 
 # ── Agent Tests ──────────────────────────────────────────────
+
 
 @pytest.mark.asyncio
 async def test_agent_run_completes() -> None:
@@ -61,6 +63,7 @@ async def test_agent_run_records_metrics() -> None:
 
 
 # ── Registry Tests ───────────────────────────────────────────
+
 
 def test_registry_register_and_get() -> None:
     registry = AgentRegistry()
@@ -84,6 +87,7 @@ def test_registry_list_agents() -> None:
 
 
 # ── Message Bus Tests ────────────────────────────────────────
+
 
 @pytest.mark.asyncio
 async def test_message_bus_publish() -> None:
@@ -118,6 +122,7 @@ async def test_message_bus_no_handler() -> None:
 
 
 # ── Type Tests ───────────────────────────────────────────────
+
 
 def test_plan_step_defaults() -> None:
     step = PlanStep(description="test step")

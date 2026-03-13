@@ -90,7 +90,9 @@ class BaseAgent(abc.ABC):
         while score < QUALITY_THRESHOLD and iteration < MAX_IMPROVEMENT_ITERATIONS:
             self._logger.info(
                 "Iteration %d: score=%.2f < %.2f, improving…",
-                iteration, score, QUALITY_THRESHOLD,
+                iteration,
+                score,
+                QUALITY_THRESHOLD,
             )
             plan = await self.improve(context, plan, result, score)
             result = await self.execute(context, plan)
@@ -102,7 +104,9 @@ class BaseAgent(abc.ABC):
         result.metrics["improvement_iterations"] = float(iteration)
         self._logger.info(
             "Agent %s finished task %s — score=%.2f",
-            self.role.value, context.task_id, score,
+            self.role.value,
+            context.task_id,
+            score,
         )
         return result
 

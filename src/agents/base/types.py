@@ -4,12 +4,12 @@ from __future__ import annotations
 
 import uuid
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
-from enum import Enum
+from datetime import UTC, datetime
+from enum import StrEnum
 from typing import Any
 
 
-class AgentRole(str, Enum):
+class AgentRole(StrEnum):
     """Roles available in the OARL agent ecosystem."""
 
     ORCHESTRATOR = "orchestrator"
@@ -23,7 +23,7 @@ class AgentRole(str, Enum):
     INFRASTRUCTURE = "infrastructure"
 
 
-class TaskStatus(str, Enum):
+class TaskStatus(StrEnum):
     """Lifecycle states for agent tasks."""
 
     PENDING = "pending"
@@ -35,7 +35,7 @@ class TaskStatus(str, Enum):
     CANCELLED = "cancelled"
 
 
-class MessageType(str, Enum):
+class MessageType(StrEnum):
     """Types of inter-agent messages."""
 
     TASK_REQUEST = "task_request"
@@ -48,7 +48,7 @@ class MessageType(str, Enum):
 
 
 def _utcnow() -> datetime:
-    return datetime.now(timezone.utc)
+    return datetime.now(UTC)
 
 
 def _new_id() -> str:

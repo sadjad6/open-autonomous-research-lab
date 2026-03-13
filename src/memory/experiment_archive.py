@@ -4,11 +4,12 @@ from __future__ import annotations
 
 import json
 import logging
-from pathlib import Path
 from dataclasses import asdict
-from typing import Any
+from pathlib import Path
+from typing import TYPE_CHECKING, Any
 
-from src.agents.base.types import ExperimentRecord
+if TYPE_CHECKING:
+    from src.agents.base.types import ExperimentRecord
 
 logger = logging.getLogger(__name__)
 
@@ -45,7 +46,9 @@ class ExperimentArchive:
                 return record
         return None
 
-    def search(self, model_type: str | None = None, dataset_id: str | None = None) -> list[dict[str, Any]]:
+    def search(
+        self, model_type: str | None = None, dataset_id: str | None = None
+    ) -> list[dict[str, Any]]:
         """Filter experiments by model type or dataset."""
         results = self.list_all()
         if model_type:

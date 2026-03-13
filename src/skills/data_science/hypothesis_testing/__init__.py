@@ -35,4 +35,8 @@ class Skill(BaseSkill):
     @staticmethod
     def _execute(data: dict[str, Any], params: dict[str, Any]) -> dict[str, Any]:
         """Core logic for hypothesis_testing."""
-        return {"skill": "hypothesis_testing", "status": "executed", "input_keys": list(data.keys())}
+        return {
+            "skill": "hypothesis_testing",
+            "status": "executed",
+            "input_keys": list(data.keys()),
+        }

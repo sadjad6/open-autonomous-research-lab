@@ -4,18 +4,6 @@ from __future__ import annotations
 
 from typing import Any
 
-import numpy as np
-import pandas as pd
-from sklearn.metrics import (
-    accuracy_score,
-    classification_report,
-    f1_score,
-    precision_score,
-    recall_score,
-    roc_auc_score,
-)
-from sklearn.model_selection import cross_val_predict
-
 from src.agents.base.agent import AgentContext, BaseAgent
 from src.agents.base.types import AgentRole, TaskResult, TaskStatus
 
@@ -59,7 +47,9 @@ class EvaluationAgent(BaseAgent):
             return 0.0
         return 1.0 if result.output.get("model_count", 0) > 0 else 0.3
 
-    async def improve(self, context: AgentContext, plan: dict[str, Any], result: TaskResult, score: float) -> dict[str, Any]:
+    async def improve(
+        self, context: AgentContext, plan: dict[str, Any], result: TaskResult, score: float
+    ) -> dict[str, Any]:
         plan["metrics"].append("log_loss")
         return plan
 

@@ -10,7 +10,6 @@ from src.agents.base.types import (
     ExecutionPlan,
     PlanStep,
     TaskResult,
-    TaskStatus,
 )
 
 
@@ -55,7 +54,9 @@ class PlannerAgent(BaseAgent):
         step_count = result.output.get("step_count", 0)
         return 1.0 if step_count > 0 else 0.0
 
-    async def improve(self, context: AgentContext, plan: dict[str, Any], result: TaskResult, score: float) -> dict[str, Any]:
+    async def improve(
+        self, context: AgentContext, plan: dict[str, Any], result: TaskResult, score: float
+    ) -> dict[str, Any]:
         # Re-generate with more granularity
         steps = self._generate_steps(context.user_request, granular=True)
         plan["execution_plan"] = ExecutionPlan(objective=context.user_request, steps=steps)
@@ -65,17 +66,67 @@ class PlannerAgent(BaseAgent):
     def _generate_steps(request: str, granular: bool = False) -> list[PlanStep]:
         """Build a default pipeline of steps for the request."""
         base_steps = [
-            PlanStep(description="Ingest and validate dataset", agent_role=AgentRole.DATA_ENGINEER, skills=["csv_loader", "schema_validator"]),
-            PlanStep(description="Clean and transform data", agent_role=AgentRole.DATA_ENGINEER, skills=["data_cleaning", "missing_value_handler"]),
-            PlanStep(description="Perform exploratory data analysis", agent_role=AgentRole.DATA_SCIENTIST, skills=["eda_generator", "correlation_analysis"]),
-            PlanStep(description="Run statistical tests", agent_role=AgentRole.DATA_SCIENTIST, skills=["statistical_testing"]),
-            PlanStep(description="Engineer features for modeling", agent_role=AgentRole.ML_ENGINEER, skills=["feature_engineer"]),
-            PlanStep(description="Train candidate models", agent_role=AgentRole.ML_ENGINEER, skills=["random_forest", "xgboost_trainer"]),
-            PlanStep(description="Tune hyperparameters", agent_role=AgentRole.ML_ENGINEER, skills=["hyperparameter_tuner"]),
-            PlanStep(description="Evaluate models", agent_role=AgentRole.EVALUATION, skills=["accuracy_evaluator", "roc_auc"]),
-            PlanStep(description="Generate research report", agent_role=AgentRole.RESEARCH_ANALYST, skills=["report_writer"]),
+            PlanStep(
+                description="Ingest and validate dataset",
+                agent_role=AgentRole.DATA_ENGINEER,
+                skills=["csv_loader", "schema_validator"],
+            ),
+            PlanStep(
+                description="Clean and transform data",
+                agent_role=AgentRole.DATA_ENGINEER,
+                skills=["data_cleaning", "missing_value_handler"],
+            ),
+            PlanStep(
+                description="Perform exploratory data analysis",
+                agent_role=AgentRole.DATA_SCIENTIST,
+                skills=["eda_generator", "correlation_analysis"],
+            ),
+            PlanStep(
+                description="Run statistical tests",
+                agent_role=AgentRole.DATA_SCIENTIST,
+                skills=["statistical_testing"],
+            ),
+            PlanStep(
+                description="Engineer features for modeling",
+                agent_role=AgentRole.ML_ENGINEER,
+                skills=["feature_engineer"],
+            ),
+            PlanStep(
+                description="Train candidate models",
+                agent_role=AgentRole.ML_ENGINEER,
+                skills=["random_forest", "xgboost_trainer"],
+            ),
+            PlanStep(
+                description="Tune hyperparameters",
+                agent_role=AgentRole.ML_ENGINEER,
+                skills=["hyperparameter_tuner"],
+            ),
+            PlanStep(
+                description="Evaluate models",
+                agent_role=AgentRole.EVALUATION,
+                skills=["accuracy_evaluator", "roc_auc"],
+            ),
+            PlanStep(
+                description="Generate research report",
+                agent_role=AgentRole.RESEARCH_ANALYST,
+                skills=["report_writer"],
+            ),
         ]
         if granular:
-            base_steps.insert(2, PlanStep(description="Detect and handle outliers", agent_role=AgentRole.DATA_ENGINEER, skills=["outlier_detector"]))
-            base_steps.insert(4, PlanStep(description="Analyze feature distributions", agent_role=AgentRole.DATA_SCIENTIST, skills=["distribution_analysis"]))
+            base_steps.insert(
+                2,
+                PlanStep(
+                    description="Detect and handle outliers",
+                    agent_role=AgentRole.DATA_ENGINEER,
+                    skills=["outlier_detector"],
+                ),
+            )
+            base_steps.insert(
+                4,
+                PlanStep(
+                    description="Analyze feature distributions",
+                    agent_role=AgentRole.DATA_SCIENTIST,
+                    skills=["distribution_analysis"],
+                ),
+            )
         return base_steps

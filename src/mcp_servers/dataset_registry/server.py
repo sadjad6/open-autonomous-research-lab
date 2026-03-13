@@ -7,7 +7,7 @@ from dataclasses import asdict
 from pathlib import Path
 from typing import Any
 
-from src.agents.base.types import DatasetMetadata, _new_id
+from src.agents.base.types import DatasetMetadata
 from src.mcp_servers.base.server import BaseMCPServer, ToolCallResult, ToolDefinition
 
 REGISTRY_FILE = Path("memory/dataset_registry.json")
