@@ -106,7 +106,7 @@ with tab1:
         with col3:
             st.metric("Missing Values", f"{df.isna().sum().sum():,}")
 
-        st.dataframe(df.head(20), use_container_width=True)
+        st.dataframe(df.head(20), width="stretch")
 
     user_request = st.text_area(
         "Analysis Request",
@@ -117,7 +117,7 @@ with tab1:
         height=100,
     )
 
-    if st.button("🚀 Start Analysis", type="primary", use_container_width=True):
+    if st.button("🚀 Start Analysis", type="primary", width="stretch"):
         if not uploaded_file:
             st.error("Please upload a dataset first.")
         elif not user_request:
@@ -153,7 +153,7 @@ with tab3:
             "F1 Score": [0.86, 0.88, 0.80],
             "AUC": [0.92, 0.94, 0.88],
         }
-        st.dataframe(sample_metrics, use_container_width=True)
+        st.dataframe(sample_metrics, width="stretch")
     with col2:
         st.markdown("### Performance Over Time")
         import numpy as np
