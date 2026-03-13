@@ -60,7 +60,7 @@ class ResearchAnalystAgent(BaseAgent):
         if result.status == TaskStatus.FAILED:
             return 0.0
         count = result.output.get("section_count", 0)
-        return min(1.0, count / MIN_SECTIONS)
+        return float(min(1.0, count / MIN_SECTIONS))
 
     async def improve(
         self, context: AgentContext, plan: dict[str, Any], result: TaskResult, score: float

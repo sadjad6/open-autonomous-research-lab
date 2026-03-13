@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import logging
 from dataclasses import dataclass, field
-from typing import Any
+from typing import Any, cast
 
 import numpy as np
 
@@ -82,7 +82,7 @@ class MLflowTracker:
             with mlflow.start_run(run_name=name) as run:
                 mlflow.log_params(params)
                 mlflow.log_metrics(metrics)
-                return run.info.run_id
+                return cast(str, run.info.run_id)
         except Exception:
             logger.exception("Failed to log MLflow experiment")
             return None

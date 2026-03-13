@@ -53,8 +53,7 @@ class MLEngineerAgent(BaseAgent):
     async def evaluate(self, result: TaskResult) -> float:
         if result.status == TaskStatus.FAILED:
             return 0.0
-        best_score = result.output.get("best_score", 0.0)
-        return best_score
+        return float(result.output.get("best_score", 0.0))
 
     async def improve(
         self, context: AgentContext, plan: dict[str, Any], result: TaskResult, score: float

@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 from dataclasses import asdict
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 from src.agents.base.types import DatasetMetadata
 from src.mcp_servers.base.server import BaseMCPServer, ToolCallResult, ToolDefinition
@@ -36,7 +36,7 @@ class DatasetRegistryServer(BaseMCPServer):
     def _load_registry(self) -> list[dict[str, Any]]:
         if not REGISTRY_FILE.exists():
             return []
-        return json.loads(REGISTRY_FILE.read_text(encoding="utf-8"))
+        return cast("list[dict[str, Any]]", json.loads(REGISTRY_FILE.read_text(encoding="utf-8")))
 
     def _save_registry(self, entries: list[dict[str, Any]]) -> None:
         REGISTRY_FILE.parent.mkdir(parents=True, exist_ok=True)
