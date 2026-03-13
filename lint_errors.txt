@@ -1,6 +1,0 @@
---- src\agents\base\registry.py ---
-Line 7: F821 - Undefined name `TYPE_CHECKING`
---- src\memory\experiment_archive.py ---
-Line 26: UP037 - Remove quotes from type annotation
---- src\ui\app.py ---
-Line 51: W291 - Trailing whitespace
