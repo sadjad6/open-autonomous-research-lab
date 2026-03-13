@@ -1,0 +1,33 @@
+services:
+  api:
+    build: .
+    container_name: oarl-api
+    ports:
+      - "8000:8000"
+    environment:
+      - OARL_DEBUG=false
+      - OARL_LOG_LEVEL=INFO
+    volumes:
+      - ./datasets:/app/datasets
+      - ./output:/app/output
+      - ./memory:/app/memory
+
+  ui:
+    build: .
+    container_name: oarl-ui
+    command: uv run streamlit run src/ui/app.py --server.port 8501 --server.address 0.0.0.0
+    ports:
+      - "8501:8501"
+    depends_on:
+      - api
+    environment:
+      - OARL_API_URL=http://api:8000
+
+  mlflow:
+    image: ghcr.io/mlflow/mlflow:v2.13.0
+    container_name: oarl-mlflow
+    ports:
+      - "5000:5000"
+    command: mlflow server --host 0.0.0.0 --port 5000
+    volumes:
+      - ./mlruns:/mlruns
