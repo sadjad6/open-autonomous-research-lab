@@ -5,8 +5,8 @@ from __future__ import annotations
 import pytest
 
 from src.mcp_servers.base.server import BaseMCPServer, ToolCallResult, ToolDefinition
-from src.mcp_servers.python_executor.server import PythonExecutorServer
 from src.mcp_servers.filesystem.server import FilesystemServer
+from src.mcp_servers.python_executor.server import PythonExecutorServer
 
 
 class MockMCPServer(BaseMCPServer):

@@ -4,8 +4,8 @@ from __future__ import annotations
 
 import pytest
 
-from src.skills.base.skill import BaseSkill, SkillInput, SkillOutput
 from src.skills.base.registry import SkillRegistry
+from src.skills.base.skill import BaseSkill, SkillInput, SkillOutput
 
 
 class MockSkill(BaseSkill):

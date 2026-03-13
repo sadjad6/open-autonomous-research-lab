@@ -64,10 +64,14 @@ class OrchestratorAgent(BaseAgent):
                 parameters=context.parameters,
             )
             result = await agent.run(sub_context)
-            results.append({"agent": role_name, "status": result.status.value, "output": result.output})
+            results.append(
+                {"agent": role_name, "status": result.status.value, "output": result.output}
+            )
             accumulated_data.update(result.output)
 
-        return self._task_result(context, output={"pipeline_results": results, "merged_data": accumulated_data})
+        return self._task_result(
+            context, output={"pipeline_results": results, "merged_data": accumulated_data}
+        )
 
     async def evaluate(self, result: TaskResult) -> float:
         pipeline_results = result.output.get("pipeline_results", [])
@@ -76,7 +80,9 @@ class OrchestratorAgent(BaseAgent):
         completed = sum(1 for r in pipeline_results if r["status"] == TaskStatus.COMPLETED.value)
         return completed / len(pipeline_results)
 
-    async def improve(self, context: AgentContext, plan: dict[str, Any], result: TaskResult, score: float) -> dict[str, Any]:
+    async def improve(
+        self, context: AgentContext, plan: dict[str, Any], result: TaskResult, score: float
+    ) -> dict[str, Any]:
         """Retry only the failed agents."""
         pipeline_results = result.output.get("pipeline_results", [])
         failed = [r["agent"] for r in pipeline_results if r["status"] != TaskStatus.COMPLETED.value]

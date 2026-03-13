@@ -36,7 +36,9 @@ class InfrastructureAgent(BaseAgent):
         disk_gb = result.output.get("disk_free_gb", 0)
         return 1.0 if disk_gb > DISK_LOW_THRESHOLD_GB else 0.5
 
-    async def improve(self, context: AgentContext, plan: dict[str, Any], result: TaskResult, score: float) -> dict[str, Any]:
+    async def improve(
+        self, context: AgentContext, plan: dict[str, Any], result: TaskResult, score: float
+    ) -> dict[str, Any]:
         return plan  # infrastructure checks are informational
 
     @staticmethod

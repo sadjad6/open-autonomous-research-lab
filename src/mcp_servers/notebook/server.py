@@ -37,10 +37,18 @@ class NotebookServer(BaseMCPServer):
         name = args.get("name", "notebook")
         cells = args.get("cells", [])
         nb = {
-            "nbformat": 4, "nbformat_minor": 5,
-            "metadata": {"kernelspec": {"display_name": "Python 3", "language": "python", "name": "python3"}},
+            "nbformat": 4,
+            "nbformat_minor": 5,
+            "metadata": {
+                "kernelspec": {"display_name": "Python 3", "language": "python", "name": "python3"}
+            },
             "cells": [
-                {"cell_type": c.get("type", "code"), "source": c.get("source", ""), "metadata": {}, "outputs": []}
+                {
+                    "cell_type": c.get("type", "code"),
+                    "source": c.get("source", ""),
+                    "metadata": {},
+                    "outputs": [],
+                }
                 for c in cells
             ],
         }

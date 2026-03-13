@@ -35,7 +35,9 @@ class DataScientistAgent(BaseAgent):
     async def execute(self, context: AgentContext, plan: dict[str, Any]) -> TaskResult:
         df_json = context.data.get("dataframe_json")
         if not df_json:
-            return self._task_result(context, TaskStatus.FAILED, error="No dataframe data available")
+            return self._task_result(
+                context, TaskStatus.FAILED, error="No dataframe data available"
+            )
 
         try:
             df = pd.read_json(df_json)
@@ -50,7 +52,9 @@ class DataScientistAgent(BaseAgent):
         insight_count = len(result.output.get("insights", []))
         return min(1.0, insight_count / MIN_INSIGHT_COUNT)
 
-    async def improve(self, context: AgentContext, plan: dict[str, Any], result: TaskResult, score: float) -> dict[str, Any]:
+    async def improve(
+        self, context: AgentContext, plan: dict[str, Any], result: TaskResult, score: float
+    ) -> dict[str, Any]:
         plan["analyses"].extend(["outlier_analysis", "skewness_check"])
         return plan
 
@@ -73,7 +77,9 @@ class DataScientistAgent(BaseAgent):
                         continue
                     corr_val = numeric[c1].corr(numeric[c2])
                     if abs(corr_val) > 0.7:
-                        insights.append(f"Strong correlation between '{c1}' and '{c2}' (r={corr_val:.2f})")
+                        insights.append(
+                            f"Strong correlation between '{c1}' and '{c2}' (r={corr_val:.2f})"
+                        )
 
         categorical_cols = list(df.select_dtypes(include=["object", "category"]).columns)
         category_summary = {col: int(df[col].nunique()) for col in categorical_cols}

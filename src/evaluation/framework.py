@@ -50,7 +50,9 @@ class MetricComputer:
 class MLflowTracker:
     """Wraps MLflow experiment tracking."""
 
-    def __init__(self, tracking_uri: str = "sqlite:///mlruns.db", experiment_name: str = "oarl") -> None:
+    def __init__(
+        self, tracking_uri: str = "sqlite:///mlruns.db", experiment_name: str = "oarl"
+    ) -> None:
         self._uri = tracking_uri
         self._experiment = experiment_name
         self._initialized = False
@@ -67,7 +69,9 @@ class MLflowTracker:
         except Exception:
             logger.warning("MLflow not available — tracking disabled")
 
-    def log_experiment(self, name: str, params: dict[str, Any], metrics: dict[str, float]) -> str | None:
+    def log_experiment(
+        self, name: str, params: dict[str, Any], metrics: dict[str, float]
+    ) -> str | None:
         """Log an experiment run to MLflow. Returns run ID or None."""
         self._init_mlflow()
         if not self._initialized:

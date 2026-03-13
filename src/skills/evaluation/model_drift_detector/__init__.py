@@ -35,4 +35,8 @@ class Skill(BaseSkill):
     @staticmethod
     def _execute(data: dict[str, Any], params: dict[str, Any]) -> dict[str, Any]:
         """Core logic for model_drift_detector."""
-        return {"skill": "model_drift_detector", "status": "executed", "input_keys": list(data.keys())}
+        return {
+            "skill": "model_drift_detector",
+            "status": "executed",
+            "input_keys": list(data.keys()),
+        }

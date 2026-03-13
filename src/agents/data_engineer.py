@@ -64,7 +64,9 @@ class DataEngineerAgent(BaseAgent):
         missing = result.output.get("missing_values", 0)
         return 1.0 if missing == 0 else 0.8
 
-    async def improve(self, context: AgentContext, plan: dict[str, Any], result: TaskResult, score: float) -> dict[str, Any]:
+    async def improve(
+        self, context: AgentContext, plan: dict[str, Any], result: TaskResult, score: float
+    ) -> dict[str, Any]:
         plan["steps"].append("aggressive_imputation")
         return plan
 

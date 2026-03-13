@@ -35,4 +35,8 @@ class Skill(BaseSkill):
     @staticmethod
     def _execute(data: dict[str, Any], params: dict[str, Any]) -> dict[str, Any]:
         """Core logic for seasonality_detection."""
-        return {"skill": "seasonality_detection", "status": "executed", "input_keys": list(data.keys())}
+        return {
+            "skill": "seasonality_detection",
+            "status": "executed",
+            "input_keys": list(data.keys()),
+        }

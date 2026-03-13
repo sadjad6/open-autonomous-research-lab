@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import logging
 import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 import structlog
@@ -41,13 +41,19 @@ class ActivityTracker:
         self._events: list[dict[str, Any]] = []
         self._logger = structlog.get_logger("oarl.activity")
 
-    def log_agent_activity(self, agent_role: str, action: str, details: dict[str, Any] | None = None) -> None:
-        event = self._build_event("agent_activity", agent_role=agent_role, action=action, details=details)
+    def log_agent_activity(
+        self, agent_role: str, action: str, details: dict[str, Any] | None = None
+    ) -> None:
+        event = self._build_event(
+            "agent_activity", agent_role=agent_role, action=action, details=details
+        )
         self._events.append(event)
         self._logger.info("agent_activity", agent=agent_role, action=action)
 
     def log_skill_usage(self, skill_name: str, domain: str, duration_ms: float) -> None:
-        event = self._build_event("skill_usage", skill=skill_name, domain=domain, duration_ms=duration_ms)
+        event = self._build_event(
+            "skill_usage", skill=skill_name, domain=domain, duration_ms=duration_ms
+        )
         self._events.append(event)
         self._logger.info("skill_usage", skill=skill_name, duration_ms=round(duration_ms, 1))
 
@@ -65,6 +71,6 @@ class ActivityTracker:
     def _build_event(event_type: str, **kwargs: Any) -> dict[str, Any]:
         return {
             "type": event_type,
-            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "timestamp": datetime.now(UTC).isoformat(),
             **{k: v for k, v in kwargs.items() if v is not None},
         }

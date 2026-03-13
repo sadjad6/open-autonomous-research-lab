@@ -2,11 +2,10 @@
 
 from __future__ import annotations
 
-import shutil
 from pathlib import Path
-from typing import Any
+from typing import Annotated, Any
 
-from fastapi import APIRouter, UploadFile, File
+from fastapi import APIRouter, File, UploadFile
 
 router = APIRouter()
 
@@ -14,7 +13,7 @@ UPLOAD_DIR = Path("datasets/uploads")
 
 
 @router.post("/datasets/upload")
-async def upload_dataset(file: UploadFile = File(...)) -> dict[str, Any]:
+async def upload_dataset(file: Annotated[UploadFile, File(...)]) -> dict[str, Any]:
     """Upload a dataset file."""
     UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
     dest = UPLOAD_DIR / (file.filename or "upload.csv")

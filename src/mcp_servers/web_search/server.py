@@ -14,7 +14,9 @@ class WebSearchServer(BaseMCPServer):
         super().__init__("web_search")
         self.register_tool(ToolDefinition("search", "Search the web for a query"))
         self.register_tool(ToolDefinition("fetch_page", "Fetch content from a URL"))
-        self.register_tool(ToolDefinition("extract_content", "Extract structured content from a page"))
+        self.register_tool(
+            ToolDefinition("extract_content", "Extract structured content from a page")
+        )
 
     async def call_tool(self, tool_name: str, arguments: dict[str, Any]) -> ToolCallResult:
         handlers = {
@@ -31,7 +33,9 @@ class WebSearchServer(BaseMCPServer):
     async def _search(args: dict[str, Any]) -> ToolCallResult:
         query = args.get("query", "")
         # In production this would call a search API
-        return ToolCallResult(data={"query": query, "results": [], "note": "Configure search API key"})
+        return ToolCallResult(
+            data={"query": query, "results": [], "note": "Configure search API key"}
+        )
 
     @staticmethod
     async def _fetch_page(args: dict[str, Any]) -> ToolCallResult:
@@ -41,7 +45,9 @@ class WebSearchServer(BaseMCPServer):
 
             async with httpx.AsyncClient() as client:
                 resp = await client.get(url, timeout=10.0)
-                return ToolCallResult(data={"url": url, "status": resp.status_code, "length": len(resp.text)})
+                return ToolCallResult(
+                    data={"url": url, "status": resp.status_code, "length": len(resp.text)}
+                )
         except Exception as exc:
             return ToolCallResult(success=False, error=str(exc))
 

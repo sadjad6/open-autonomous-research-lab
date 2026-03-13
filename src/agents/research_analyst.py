@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
 from typing import Any
 
 from src.agents.base.agent import AgentContext, BaseAgent
@@ -48,7 +47,9 @@ class ResearchAnalystAgent(BaseAgent):
                     "report_id": report.report_id,
                     "title": report.title,
                     "section_count": len(report.sections),
-                    "sections": [{"heading": s.heading, "content": s.content} for s in report.sections],
+                    "sections": [
+                        {"heading": s.heading, "content": s.content} for s in report.sections
+                    ],
                     "report_markdown": self._to_markdown(report),
                 },
             )
@@ -61,7 +62,9 @@ class ResearchAnalystAgent(BaseAgent):
         count = result.output.get("section_count", 0)
         return min(1.0, count / MIN_SECTIONS)
 
-    async def improve(self, context: AgentContext, plan: dict[str, Any], result: TaskResult, score: float) -> dict[str, Any]:
+    async def improve(
+        self, context: AgentContext, plan: dict[str, Any], result: TaskResult, score: float
+    ) -> dict[str, Any]:
         plan["sections"].append("limitations")
         plan["sections"].append("future_work")
         return plan
@@ -70,30 +73,48 @@ class ResearchAnalystAgent(BaseAgent):
         data = context.data
         sections: list[ReportSection] = []
 
-        sections.append(ReportSection(
-            heading="Executive Summary",
-            content=f"This report presents the analysis of the research request: {context.user_request}",
-        ))
-        sections.append(ReportSection(
-            heading="Data Overview",
-            content=self._data_overview_text(data),
-        ))
-        sections.append(ReportSection(
-            heading="Exploratory Analysis",
-            content=self._eda_text(data),
-        ))
-        sections.append(ReportSection(
-            heading="Modeling Results",
-            content=self._modeling_text(data),
-        ))
-        sections.append(ReportSection(
-            heading="Evaluation Metrics",
-            content=self._eval_text(data),
-        ))
-        sections.append(ReportSection(
-            heading="Recommendations",
-            content="Based on the analysis, we recommend further investigation of the strongest predictive features.",
-        ))
+        sections.append(
+            ReportSection(
+                heading="Executive Summary",
+                content=(
+                    f"This report presents the analysis of the research request: "
+                    f"{context.user_request}"
+                ),
+            )
+        )
+        sections.append(
+            ReportSection(
+                heading="Data Overview",
+                content=self._data_overview_text(data),
+            )
+        )
+        sections.append(
+            ReportSection(
+                heading="Exploratory Analysis",
+                content=self._eda_text(data),
+            )
+        )
+        sections.append(
+            ReportSection(
+                heading="Modeling Results",
+                content=self._modeling_text(data),
+            )
+        )
+        sections.append(
+            ReportSection(
+                heading="Evaluation Metrics",
+                content=self._eval_text(data),
+            )
+        )
+        sections.append(
+            ReportSection(
+                heading="Recommendations",
+                content=(
+                    "Based on the analysis, we recommend further investigation "
+                    "of the strongest predictive features."
+                ),
+            )
+        )
 
         return ResearchReport(
             title=f"Research Report — {context.user_request[:60]}",
@@ -118,9 +139,12 @@ class ResearchAnalystAgent(BaseAgent):
         experiments = data.get("experiments", [])
         if not experiments:
             return "No models were trained in this analysis."
-        lines = [f"- {e['model']}: CV accuracy = {e['cv_mean']:.4f} (±{e['cv_std']:.4f})" for e in experiments]
+        lines = [
+            f"- {e['model']}: CV accuracy = {e['cv_mean']:.4f} (±{e['cv_std']:.4f})"
+            for e in experiments
+        ]
         best = data.get("best_model", "N/A")
-        return f"Models trained:\n" + "\n".join(lines) + f"\n\nBest model: **{best}**"
+        return "Models trained:\n" + "\n".join(lines) + f"\n\nBest model: **{best}**"
 
     @staticmethod
     def _eval_text(data: dict[str, Any]) -> str:

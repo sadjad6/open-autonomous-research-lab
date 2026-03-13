@@ -8,7 +8,7 @@ from dataclasses import asdict
 from pathlib import Path
 from typing import Any
 
-from src.agents.base.types import DatasetMetadata, ExperimentRecord, ResearchReport, _new_id
+from src.agents.base.types import ExperimentRecord, ResearchReport, _new_id
 
 logger = logging.getLogger(__name__)
 
