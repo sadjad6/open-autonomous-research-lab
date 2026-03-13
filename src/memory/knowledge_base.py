@@ -61,6 +61,7 @@ class KnowledgeBase:
         if not path.exists():
             return None
         from typing import cast
+
         return cast("dict[str, Any]", json.loads(path.read_text()))
 
     # ---- Internal helpers ----
