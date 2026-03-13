@@ -82,7 +82,7 @@ class MLflowTracker:
             with mlflow.start_run(run_name=name) as run:
                 mlflow.log_params(params)
                 mlflow.log_metrics(metrics)
-                return cast(str, run.info.run_id)
+                return cast("str", run.info.run_id)
         except Exception:
             logger.exception("Failed to log MLflow experiment")
             return None
