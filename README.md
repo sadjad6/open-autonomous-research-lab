@@ -1,5 +1,9 @@
 # 🔬 Open Autonomous Research Lab (OARL)
 
+<div align="center">
+  <img src="docs/assets/oarl_logo.png" alt="OARL Logo" width="600"/>
+</div>
+
 [![CI](https://github.com/oarl/open-autonomous-research-lab/actions/workflows/ci.yml/badge.svg)](https://github.com/oarl/open-autonomous-research-lab/actions)
 [![Python 3.12](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
