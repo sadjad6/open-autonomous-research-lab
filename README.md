@@ -1,7 +1,7 @@
 # 🔬 Open Autonomous Research Lab (OARL)
 
 <div align="center">
-  <img src="docs/assets/oarl_logo.png" alt="OARL Logo" width="600"/>
+  <img src="docs/assets/oarl_logo.jpeg" alt="OARL Logo" width="600"/>
 </div>
 
 [![CI](https://github.com/oarl/open-autonomous-research-lab/actions/workflows/ci.yml/badge.svg)](https://github.com/oarl/open-autonomous-research-lab/actions)
