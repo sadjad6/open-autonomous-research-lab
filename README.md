@@ -1,5 +1,9 @@
 # 🔬 Open Autonomous Research Lab (OARL)
 
+![open-autonomous-research-lab project artwork](./docs/assets/oarl_logo.jpeg)
+
+*Original concept artwork. The default implementation is a fixed seven-role workflow; skill, MCP and MLflow integration limits are documented below.*
+
 [![CI](https://github.com/sadjad6/open-autonomous-research-lab/actions/workflows/ci.yml/badge.svg)](https://github.com/sadjad6/open-autonomous-research-lab/actions)
 [![Python 3.12](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
