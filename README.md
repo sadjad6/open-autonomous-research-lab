@@ -1,33 +1,25 @@
 # 🔬 Open Autonomous Research Lab (OARL)
 
-<div align="center">
-  <img src="docs/assets/oarl_logo.jpeg" alt="OARL Logo" width="600"/>
-</div>
-
-[![CI](https://github.com/oarl/open-autonomous-research-lab/actions/workflows/ci.yml/badge.svg)](https://github.com/oarl/open-autonomous-research-lab/actions)
+[![CI](https://github.com/sadjad6/open-autonomous-research-lab/actions/workflows/ci.yml/badge.svg)](https://github.com/sadjad6/open-autonomous-research-lab/actions)
 [![Python 3.12](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-**A multi-agent AI platform for autonomous data analysis, ML experimentation, research discovery, and report generation.**
-
-OARL provides a team of 9 specialized AI agents that collaborate to analyze datasets, train models, evaluate results, and produce comprehensive research reports — all from a single natural-language request.
+**Open-source prototype for structured data-analysis and ML workflows.** Its FastAPI route invokes an orchestrator with a fixed seven-role pipeline for dataset preparation, basic analysis, baseline model comparison, evaluation summaries, and a templated report. The repository also contains skill, tool-server, memory, and MLflow components at different stages of integration.
 
 ---
 
 ## ✨ Key Features
 
-| Feature | Description |
-|---------|-------------|
-| **🤖 9 Specialist Agents** | Orchestrator, Planner, Data Engineer, Data Scientist, ML Engineer, Research Analyst, Evaluation, Knowledge Manager, Infrastructure |
-| **🧩 100+ Skills** | Modular skill library spanning data engineering, data science, ML, visualization, research, evaluation, and infrastructure |
-| **🔧 7 MCP Servers** | Python execution, filesystem, database, visualization, web search, dataset registry, notebook management |
-| **🧠 Memory System** | Vector store (ChromaDB), knowledge base, experiment archive |
-| **📊 MLflow Integration** | Automatic experiment tracking and comparison |
-| **🌐 REST API** | FastAPI backend to trigger workflows programmatically |
-| **🖥️ Streamlit UI** | Interactive research interface with dataset upload and report generation |
-| **🐳 Docker Ready** | Full containerization with Docker Compose |
-
----
+| Component | Current status |
+|-----------|----------------|
+| **Agent workflow** | FastAPI invokes an orchestrator that runs seven roles in a fixed sequence; additional agent classes are registered but not called by that default route. |
+| **Skills** | The tree contains 95 built-in skill packages and 5 marketplace plugin packages. The inspected skill examples return placeholder results; the default API route does not execute the skill registry. |
+| **Tool servers** | Seven server modules expose local `list_tools` / `call_tool` methods. The default workflow does not call them, and MCP protocol transport is not established by the current code. |
+| **Memory** | A ChromaDB-backed vector-store module is present. API initialization depends on the optional `vector` extra. |
+| **MLflow** | A tracking wrapper and a Docker Compose service are present; the default analysis route does not log runs. |
+| **REST API** | FastAPI exposes analysis, agent-list, and health routes. |
+| **Streamlit UI** | Dataset preview and demonstration results are available; the UI does not invoke the analysis API. |
+| **Docker Compose** | Defines API, UI, and MLflow services; deployment and cross-service behavior are not demonstrated here. |
 
 ## 🚀 Quick Start
 
@@ -40,11 +32,11 @@ OARL provides a team of 9 specialized AI agents that collaborate to analyze data
 
 ```bash
 # Clone the repository
-git clone https://github.com/oarl/open-autonomous-research-lab.git
+git clone https://github.com/sadjad6/open-autonomous-research-lab.git
 cd open-autonomous-research-lab
 
 # Install dependencies
-uv sync
+uv sync --extra vector
 
 # Generate demo datasets
 uv run python scripts/generate_datasets.py
@@ -65,6 +57,7 @@ uv run uvicorn src.api.main:app --reload --port 8000
 ```bash
 uv run streamlit run src/ui/app.py
 # Visit: http://localhost:8501
+# The current UI previews uploads and shows demonstration results; it does not call /api/analyze.
 ```
 
 ### Run with Docker
@@ -80,23 +73,15 @@ docker compose up -d
 
 ## 🏗️ Architecture
 
-```
-User Interface (Streamlit) ──→ REST API (FastAPI)
-                                    │
-                         Agent Orchestration Layer
-                    ┌───────────────┼───────────────┐
-                    │               │               │
-              Planner Agent   Data Engineer   ML Engineer
-                    │               │               │
-                         Skill Execution Layer
-                    ┌───────────────┼───────────────┐
-                    │               │               │
-              100+ Skills     MCP Tool Layer    Memory System
+```text
+FastAPI /api/analyze → Orchestrator
+                          ↓
+Planner → Data Engineer → Data Scientist → ML Engineer
+                          ↓
+Evaluation → Research Analyst → Knowledge Manager
 ```
 
-Agents use a **plan → execute → evaluate → improve** reasoning loop.
-
----
+The orchestrator uses a fixed role sequence. Individual agents implement a plan → execute → evaluate → improve loop, but the default workflow does not execute the skill registry or tool-server modules. The report is assembled from templates, and model comparison uses baseline scikit-learn classifiers.
 
 ## 📡 API Usage
 
@@ -137,13 +122,13 @@ uv run mypy src/ --ignore-missing-imports
 
 ```
 src/
-├── agents/          # 9 specialist agents with reasoning loops
-├── skills/          # 100+ modular skills across 7 domains
-├── mcp_servers/     # 7 MCP tool servers
+├── agents/          # Agent roles and fixed orchestration pipeline
+├── skills/          # Skill packages and registry scaffold
+├── mcp_servers/     # Local tool-server modules
 ├── memory/          # Vector store, knowledge base, archive
-├── evaluation/      # Metrics, MLflow tracking
+├── evaluation/      # Metrics helpers and MLflow wrapper
 ├── api/             # FastAPI REST endpoints
-├── ui/              # Streamlit research interface
+├── ui/              # Streamlit demonstration interface
 ├── observability/   # Structured logging
 └── config/          # Pydantic settings
 ```
@@ -153,3 +138,5 @@ src/
 ## 📄 License
 
 [MIT](LICENSE)
+
+
